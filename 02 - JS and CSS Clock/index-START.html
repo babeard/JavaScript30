@@ -62,12 +62,56 @@
       background:black;
       position: absolute;
       top:50%;
+      transform-origin: right;
     }
 
   </style>
 
   <script>
 
+    // Get element handles for hands
+    const sHand = document.querySelector(".second-hand")
+    const mHand = document.querySelector(".min-hand")
+    const hHand = document.querySelector(".hour-hand")
+
+    // Update every second
+    setInterval(() => {
+
+      // Get calculated degrees for hours, minutes, and seconds
+      const degrees = getDegrees()
+
+      // Apply transformations to each hand
+      sHand.style.transform = `rotate(${degrees.s}deg)`
+      mHand.style.transform = `rotate(${degrees.m}deg)`
+      hHand.style.transform = `rotate(${degrees.h}deg)`
+
+    }, 1000)
+
+    function getDegrees() {
+
+      // Initialize a new date
+      const d = new Date()
+
+      // Get current number of seconds
+      const seconds = d.getSeconds()
+
+      // Calculate rotation degrees for seconds
+      let s = seconds * 6 + 90
+
+      // Get current number of minutes
+      const minutes = d.getMinutes()
+
+      // Calculate rotation degrees for minutes accounting for minor degree changes due to seconds
+      let m = minutes * 6 + (seconds / 60) * 6 + 90
+
+      // Get current number of hours
+      const hours = d.getHours()
+
+      // Calculate rotation degrees for hours accounting for minor degree changes due to minutes
+      let h = hours * 30 + (minutes / 60) * 6 + 90
+
+      return { h, m, s }
+    }
 
   </script>
 </body>
