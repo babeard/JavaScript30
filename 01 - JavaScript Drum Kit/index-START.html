@@ -58,7 +58,31 @@
   <audio data-key="76" src="sounds/tink.wav"></audio>
 
 <script>
+  // Listen for keydowns
+  window.addEventListener("keydown", (e) => {
 
+    // Select the proper audio element
+    const aud = document.querySelector(`audio[data-key='${e.keyCode}'`)
+
+    // If a matching audio element exists
+    if(aud) {
+
+      // Make sure it starts from the beginning every time
+      aud.currentTime = 0
+
+      // Play the audio
+      aud.play()
+      
+      // Retrieve the corresponding div element
+      const el = document.querySelector(`.key[data-key='${e.keyCode}']`)
+      
+      // Add playing class
+      el.classList.add('playing')
+      
+      // When the audio ends, remove the playing class from the div
+      aud.onended = () => el.classList.remove('playing')
+    }
+  })
 </script>
 
 
