@@ -30,7 +30,11 @@
     img {
       padding: var(--spacing);
       background-color: var(--color);
-      filter:blur(var(--blur));
+      filter: blur(var(--blur));
+    }
+
+    .hl {
+      color: var(--color);
     }
 
     /*
@@ -61,16 +65,21 @@
     const blurCtrl = document.querySelector('input#blur')
     const colorCtrl = document.querySelector('input#base')
     const img = document.querySelector('img')
+    const hl = document.querySelector('.hl')
 
     // Set initial values based on input defaults
     img.style.setProperty('--spacing', `${spacingCtrl.value}px`)
     img.style.setProperty('--blur', `${blurCtrl.value}px`)
     img.style.setProperty('--color', colorCtrl.value)
+    hl.style.setProperty('--color', colorCtrl.value)
 
     // Listen for input changes and set the css variable appropriately
     spacingCtrl.addEventListener('input', (e) => img.style.setProperty('--spacing', `${e.target.value}px`))
     blurCtrl.addEventListener('input', (e) => img.style.setProperty('--blur', `${e.target.value}px`))
-    colorCtrl.addEventListener('change', (e) => img.style.setProperty('--color', e.target.value))
+    colorCtrl.addEventListener('change', (e) => {
+      img.style.setProperty('--color', e.target.value)
+      hl.style.setProperty('--color', e.target.value)
+    })
   </script>
 
 </body>
