@@ -139,7 +139,7 @@
       // Listen for a transition to end on this panel
       panel.addEventListener('transitionend', (e) => {
 
-        // If it is flexable. *Cheated
+        // Only toggle when the flex transition has finished and not the font-size. *Cheated
         if (e.propertyName.includes('flex')) {
 
           // Add or remove the open-active class to this element
