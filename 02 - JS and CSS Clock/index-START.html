@@ -110,8 +110,7 @@
       const hours = d.getHours()
 
       // Calculate rotation degrees for hours accounting for minor degree changes due to minutes
-      let h = hours * 30 + (minutes / 60) * 6 + 90
-
+      let h = hours * 30 + (minutes / 60) * 30 + 90
       return { h, m, s }
     }
 
