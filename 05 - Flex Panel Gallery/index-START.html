@@ -24,6 +24,7 @@
     .panels {
       min-height:100vh;
       overflow: hidden;
+      display: flex;
     }
 
     .panel {
@@ -32,6 +33,7 @@
       color:white;
       text-align: center;
       align-items:center;
+      flex: 1;
       /* Safari transitionend event.propertyName === flex */
       /* Chrome + FF transitionend event.propertyName === flex-grow */
       transition:
@@ -41,6 +43,9 @@
       font-size: 20px;
       background-size:cover;
       background-position:center;
+      justify-content: center;  /* *Cheated */
+      display: flex;
+      flex-direction: column;
     }
 
 
@@ -54,6 +59,10 @@
       margin:0;
       width: 100%;
       transition:transform 0.5s;
+      flex: 1 0 auto;  /* *Cheated */
+      display:flex;
+      justify-content: center;
+      align-items: center;
     }
 
     .panel p {
@@ -65,8 +74,16 @@
     .panel p:nth-child(2) {
       font-size: 4em;
     }
+    
+     /* *Cheated on this section */
+    .panel > *:first-child { transform: translateY(-100%); }
+    .panel > *:last-child { transform: translateY(100%); }
+    .panel.open-active > *:last-child, .panel.open-active *:first-child {
+      transform: translateY(0);
+    }
 
     .panel.open {
+      flex: 2; /* *Cheated */
       font-size:40px;
     }
 
@@ -102,6 +119,36 @@
   </div>
 
   <script>
+    // Note: My original goals were to complete each project without looking at source code or the accompanying
+    // explanation video. This project I had to look up some of the flex css and javascript denoted by *.
+
+    // Select all the panels!
+    const panels = document.querySelectorAll('.panel');
+
+    // Loop over each panel
+    panels.forEach(panel => {
+
+      // Listen for a click on this panel
+      panel.addEventListener('click', (e) => {
+
+        // Add or remove the open class to this element
+        panel.classList.toggle("open");
+
+      })
+
+      // Listen for a transition to end on this panel
+      panel.addEventListener('transitionend', (e) => {
+
+        // If it is flexable. *Cheated
+        if (e.propertyName.includes('flex')) {
+
+          // Add or remove the open-active class to this element
+          panel.classList.toggle('open-active')
+
+        }
+      })
+
+    })
 
   </script>
 
