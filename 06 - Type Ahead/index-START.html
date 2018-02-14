@@ -15,7 +15,84 @@
     </ul>
   </form>
 <script>
-const endpoint = 'https://gist.githubusercontent.com/Miserlou/c5cd8364bf9b2420bb29/raw/2bf258763cdddd704f8ffd3ea9a3e81d25e2c6f6/cities.json';
+  const endpoint = 'https://gist.githubusercontent.com/Miserlou/c5cd8364bf9b2420bb29/raw/2bf258763cdddd704f8ffd3ea9a3e81d25e2c6f6/cities.json';  
+  let cities = []  
+  const search = document.querySelector('input.search')
+  const suggestions = document.querySelector('ul.suggestions')
+
+  // Load cities on page load
+  window.addEventListener('load', loadCities)
+
+  // Listen for a keyup event on the input
+  search.addEventListener('keyup', filter)
+
+  function loadCities() {
+    // Retrieve json payload
+    return fetch(endpoint)
+      // Parse into json
+      .then(response => response.json())
+      // Log any errors
+      .catch( error => console.error('Error:', error))
+      // Return the actual results
+      .then(response => { cities = response })
+  }
+
+  function filter() {
+
+    // Check to see if cities has been loaded
+    if (cities.length < 1) { console.error('Error: payload not loaded'); return }
+
+    // Reset any children within the ul
+    suggestions.innerHTML = ''
+
+    // Filter the city by input value
+    const filtered = cities.filter(city => {
+      const hasCity = city.city.toLowerCase().includes(this.value.toLowerCase())
+      const hasState = city.state.toLowerCase().includes(this.value.toLowerCase())
+
+      return hasCity || hasState
+    })
+
+    // Loop over each filtered city
+    filtered.forEach(city => {
+
+      // Create a new html list item element
+      const listItem = document.createElement('li')
+
+      // Create a new span element
+      const nameSpan = document.createElement('span')
+
+      // Add the class of name
+      nameSpan.classList.add('name')
+
+      // Define a regular expression in order to define case insensitive flag
+      const re = new RegExp(this.value, "gi")
+      
+      // Combine city and state
+      const location = `${city.city}, ${city.state}`
+
+      // Insert the highlighted city name within the span
+      nameSpan.innerHTML = location.replace(re, `<span class="hl">${this.value}</span>`)
+
+      // Create a new span element
+      const popSpan = document.createElement('span')
+
+      // Add the class of population
+      popSpan.classList.add('population')
+
+      // Format to use comma seperators and insert
+      popSpan.innerText = new Intl.NumberFormat().format(city.population)
+
+      // Append the name and population to the list item
+      listItem.appendChild(nameSpan)
+      listItem.appendChild(popSpan)
+
+      // Add new html element to suggestions
+      suggestions.appendChild(listItem)
+
+    })
+
+  }
 
 </script>
   </body>
