@@ -18,29 +18,60 @@
     }
 
     // Regular
+    console.log('hello world')
 
     // Interpolated
+    console.log('hello %s', 'world')
 
     // Styled
+    console.log('%c Hello World!', 'background: #0ff; color: #f00;')
 
     // warning!
+    console.warn('Warning Will Robinson. Warning!')
 
     // Error :|
+    console.error('404')
 
     // Info
+    console.info('inform')
 
     // Testing
+    console.trace(makeGreen)
 
     // clearing
+    console.clear()
 
     // Viewing DOM Elements
+    console.log(document.querySelector('p'))
 
     // Grouping together
+    console.groupCollapsed("Group 1")
+    console.log('hello')
+    console.log('world')
+    console.log('!')
+    console.groupEnd()
 
     // counting
+    console.count('Wes')
+    console.count('Wes')
+    console.count('Steve')
+    console.count('Steve')
+    console.count('Wes')
+    console.count('Steve')
+    console.count('Wes')
+    console.count('Steve')
+    console.count('Steve')
+    console.count('Steve')
+    console.count('Steve')
+    console.count('Steve')
+    
+    console.table(dogs)
 
     // timing
-
+    console.time("timeout")
+    setTimeout(() => {
+      console.timeEnd("timeout")
+    }, 234)
   </script>
 </body>
 </html>
