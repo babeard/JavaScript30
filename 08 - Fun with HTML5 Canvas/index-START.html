@@ -7,6 +7,98 @@
 <body>
 <canvas id="draw" width="800" height="800"></canvas>
 <script>
+  // Grab the canvas element
+  const canvas = document.querySelector('#draw')
+
+  // Set the canvas size to full page width
+  canvas.width = window.innerWidth
+  canvas.height = window.innerHeight
+
+  // Get the canvas context
+  const ctx = canvas.getContext('2d')
+
+  // Make the line rounded for a fat circular look
+  ctx.lineJoin = 'round'
+
+  // Initialize default values
+  let isMouseDown = false
+  let maxRadius = 100
+  let currentRadius = maxRadius
+  let hue = 0
+  let prevPos = { x: 0, y: 0}
+
+  // Listen for mouse events
+  canvas.addEventListener('mousedown', toggleMouseClick)
+  canvas.addEventListener('mouseup', toggleMouseClick)  
+  canvas.addEventListener('mousemove', mouseMove)
+
+  // Mark isMouseDown as false whenever the cursor leaves to prevent confusion when it re-enters.
+  window.addEventListener('mouseleave', () => isMouseDown = false)
+
+  function toggleMouseClick(e) {
+
+    // Set the previous position to current
+    prevPos = { x: e.x, y: e.y }
+
+    // Make sure isMouseDown is in sync
+    isMouseDown = (e.type === "mousedown")
+
+  }
+
+  function mouseMove(e) {
+
+    // Only if the mouse is down
+    if (isMouseDown) {
+
+      // Set the new size and color
+      ctx.lineWidth = getSize()
+      ctx.strokeStyle = getColor()
+
+      // Begin the path for the line
+      ctx.beginPath()
+
+      // Set the beginning "paint" cursor to the previous mouse position
+      ctx.moveTo(prevPos.x, prevPos.y)
+
+      // Make a line from previous cursor position to current position
+      ctx.lineTo(e.x, e.y)
+
+      // Close out the path for the line
+      ctx.closePath()
+
+      // Paint the stroke
+      ctx.stroke()
+
+      // Reassign the previous mouse position to reflect the current one
+      prevPos = { x: e.x, y: e.y }
+
+    }
+
+  }
+
+  function getSize() {
+
+    // Add to radius
+    currentRadius++
+
+    // If the current radius is greater than 80, change it to a negative number
+    if (currentRadius > maxRadius) currentRadius *= -1
+
+    // Return the absolute value of the current radius
+    return Math.abs(currentRadius)
+
+  }
+
+  // * Cheated - I was using rgb instead of hue. Hue makes much more sense. I couldn't get it 
+  // quite right with rgb, so I peeked.
+  function getColor() { 
+
+    // Rotate hue by 1 degree and set back to zero when 360 is hit
+    hue = (hue + 1) % 360
+
+    // Return the new color
+    return `hsl(${hue}, 100%, 50%)`
+  }
 </script>
 
 <style>
