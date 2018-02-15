@@ -22,8 +22,8 @@
 
   // Initialize default values
   let isMouseDown = false
-  let maxRadius = 100
-  let currentRadius = maxRadius
+  let maxSize = 100
+  let curSize = maxSize
   let hue = 0
   let prevPos = { x: 0, y: 0}
 
@@ -78,26 +78,27 @@
 
   function getSize() {
 
-    // Add to radius
-    currentRadius++
+    // Add to size
+    curSize++
 
-    // If the current radius is greater than 80, change it to a negative number
-    if (currentRadius > maxRadius) currentRadius *= -1
+    // If the current size is greater than 80, change it to a negative number
+    if (curSize > maxSize) curSize *= -1
 
-    // Return the absolute value of the current radius
-    return Math.abs(currentRadius)
+    // Return the absolute value of the current size
+    return Math.abs(curSize)
 
   }
 
   // * Cheated - I was using rgb instead of hue. Hue makes much more sense. I couldn't get it 
-  // quite right with rgb, so I peeked.
-  function getColor() { 
+  // quite right with rgb.
+  function getColor() {
 
     // Rotate hue by 1 degree and set back to zero when 360 is hit
     hue = (hue + 1) % 360
 
     // Return the new color
     return `hsl(${hue}, 100%, 50%)`
+
   }
 </script>
 
