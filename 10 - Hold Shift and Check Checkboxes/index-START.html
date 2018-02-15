@@ -99,6 +99,61 @@
   </div>
 
 <script>
+
+  // Select all the inputs
+  const inputs = document.querySelectorAll('.item input')
+
+  // Set the default start index
+  let lastIdx = inputs.length - 1
+  let isShift = false
+
+  // Loop over each input and add an event listener for change and call check when it happens
+  inputs.forEach((input, idx) => {
+    input.addEventListener('change', (e) => check(e, idx))
+  })
+
+  // Listen for shift up and down
+  window.addEventListener('keydown', (e) => toggleShift(e, true))
+  window.addEventListener('keyup', (e) => toggleShift(e, false))
+
+  function toggleShift(e, isDown) {
+
+    // If is shift key, update the isShift variable
+    if (e.keyCode === 16) isShift = isDown
+
+  }
+
+  function check(e, idx) {
+
+    // If shift is held down
+    if (isShift) {
+
+      // Loop over each input
+      inputs.forEach((input, i) => {
+
+        // If the current item index in this array is between index and lastIdx
+        if (between(i, idx, lastIdx)) {
+
+          // If input is not already checked, check it
+          if (!input.checked) input.checked = true
+
+        }
+
+      })
+
+    }
+
+    // Regardless of if shift is down, if it is checked we need to set the last index
+    if (e.target.checked) lastIdx = idx
+
+  }
+
+  function between(current, a, b) {
+
+    // If current is greater than the lowest and less than the highest
+    return current > Math.min(a, b) && current < Math.max(a, b)
+
+  }
 </script>
 </body>
 </html>
