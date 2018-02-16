@@ -43,10 +43,10 @@
   </div>
 
   <script>
-    window.addEventListener('scroll', (e) => {
+    window.addEventListener('scroll', debounce(e => {
 
-      // Select all the slide in images on the page and cast to simple array (non-nodelist)
-      const imgs = [...document.querySelectorAll('img.slide-in')]
+      // Select all the slide in images on the page
+      const imgs = document.querySelectorAll('img.slide-in')
 
       imgs.forEach(img => {
 
@@ -65,7 +65,7 @@
 
       })
 
-    })
+    }))
 
     function elementInView(element, viewStart, viewHeight) {
 
