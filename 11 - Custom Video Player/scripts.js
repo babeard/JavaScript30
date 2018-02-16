@@ -57,7 +57,7 @@ function skip(e) {
 function updateProgressBar() {
 
     // Compute the percentage completed
-    const completed = Math.round(this.currentTime / this.duration * 10000) / 100
+    const completed = (this.currentTime / this.duration) * 100
 
     // Update the progress bar style
     ctrl.progressBar.style.flexBasis = `${completed}%`
