@@ -11,15 +11,15 @@
   let konami = [38, 38, 40, 40, 37, 39, 37, 39, 66, 65]
 
   window.addEventListener('keyup', (e) => {
-    
+
     // Push the new key onto the end of the keys array
     keys.push(e.keyCode)
-    
+
     // Get rid of the oldest key strokes if the length is greater than 10
     keys = (keys.length > 10)? keys.slice(keys.length - 10) : keys
-    
+
     // Compare
-    if (keys.length === konami.length && keys.every((key, i) => konami[i] === key)) {
+    if (keys.join('') === konami.join('')) {
       console.log("Success!")
     }
 
