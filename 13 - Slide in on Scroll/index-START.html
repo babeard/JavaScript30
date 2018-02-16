@@ -43,6 +43,49 @@
   </div>
 
   <script>
+    window.addEventListener('scroll', (e) => {
+
+      // Select all the slide in images on the page and cast to simple array (non-nodelist)
+      const imgs = [...document.querySelectorAll('img.slide-in')]
+
+      imgs.forEach(img => {
+
+        // If the image is not in view
+        if (!elementInView(img, e.pageY, window.innerHeight)) {
+
+          // Remove the active class
+          img.classList.remove('active')
+
+          // Go no further
+          return
+        }
+
+        // Image is in view, so add active class
+        img.classList.add('active')
+
+      })
+
+    })
+
+    function elementInView(element, viewStart, viewHeight) {
+
+      // Convenience
+      const img = { start: element.y, end: element.y + element.height }
+      const win = { start: viewStart, end: viewStart + viewHeight }
+
+      // If the image is larger than the viewport height
+      const isLargerThanScreen = (img.start < win.start && img.end > win.end)
+
+      // If the image start y is within the viewport
+      const isStartWithin = img.start >= win.start && img.start <= win.end
+
+      // If the image end y is within the viewport
+      const isEndWithin = img.end >= win.start && img.end <= win.end
+
+      return isEndWithin || isStartWithin || isLargerThanScreen
+
+    }
+
     function debounce(func, wait = 20, immediate = true) {
       var timeout;
       return function() {
