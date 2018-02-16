@@ -101,6 +101,7 @@ body {
   width:50%;
   background:#ffc600;
   flex:0;
+  transition: flex-basis 0.2s;
   flex-basis:50%;
 }
 
