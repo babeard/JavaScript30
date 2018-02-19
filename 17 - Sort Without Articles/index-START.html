@@ -45,7 +45,42 @@
 
 <script>
 const bands = ['The Plot in You', 'The Devil Wears Prada', 'Pierce the Veil', 'Norma Jean', 'The Bled', 'Say Anything', 'The Midway State', 'We Came as Romans', 'Counterparts', 'Oh, Sleeper', 'A Skylit Drive', 'Anywhere But Here', 'An Old Dog'];
+const articles = ['The', 'A', 'An']
+const list = document.querySelector('#bands')
 
+// Sort the bands
+bands.sort(sortBands)
+
+// Populate the list
+bands.forEach(band => list.innerHTML += `<li>${band}</li>`)
+
+function sortBands(a, b) {
+
+  // Remove the articles in a & b
+  redactedA = removeArticles(a).toUpperCase()
+  redactedB = removeArticles(b).toUpperCase()
+
+  // See which is greater
+  if (redactedA < redactedB) return -1
+  if (redactedA > redactedB) return 1
+
+  // Must be the same
+  return 0
+
+}
+
+function removeArticles(name) {
+
+  // Split into parts
+  const words = name.split(' ')
+
+  // If the start of the name is an article, remove.
+  if (articles.includes(words[0])) return words.slice(1).join(' ')
+
+  // Nothing to remove, return original
+  return name
+
+}
 
 </script>
 
