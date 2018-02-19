@@ -28,14 +28,13 @@
 <script>
   const addItems = document.querySelector('.add-items');
   const itemsList = document.querySelector('.plates');
-  let items = [];
   const storageKey = 'appetizers'
 
-  // Load items or an empty array if it doesn't exist
-  items = JSON.parse(window.localStorage.getItem(storageKey)) || []
+  // Load items or an empty array if it doesn't exist  
+  const items = JSON.parse(window.localStorage.getItem(storageKey)) || [];
 
   // Initial load of list
-  updateItemsList()
+  renderList(items, itemsList)
 
   addItems.addEventListener('submit', (e) => {
 
@@ -43,60 +42,50 @@
     e.preventDefault()
 
     // Select the input within this form
-    const itemInput = e.target.querySelector('input[name="item"]')
+    const name = (e.target.querySelector('input[name="item"]')).value
 
     // Update the items array
-    items.push({name: itemInput.value, done: false })
+    items.push({ name, done: false })
 
     // Update local storage
     updateLocalStorage(items)
 
     // Refresh the UL
-    updateItemsList()
+    renderList(items, itemsList)
 
     // Reset the form
     e.target.reset()
 
   })
 
-  function liClick(e) {
+  itemsList.addEventListener('click', (e) => {
 
-    // Select the input
-    const input = this.querySelector('input')
-
-    // Toggle checked
-    input.checked = !input.checked
+     // Filter out other non inputs
+    if (!e.target.matches('input')) return
 
     // Get the key for this input
-    const key = input.dataset.key
+    const key = e.target.dataset.key
 
     // Update items array
-    items[key] = { name: items[key].name, done: input.checked }
+    items[key] = { name: items[key].name, done: e.target.checked }
 
     // Update local storage
     updateLocalStorage(items)
 
-  }
+  })
 
-  function updateItemsList() {
+  function renderList(items = [], list) {
     // Remove existing html
-    itemsList.innerHTML = ""
+    list.innerHTML = ""
 
     // Populate items
     items.forEach((item, idx) => {
-      itemsList.innerHTML += `<li><input type="checkbox" data-key="${idx}" /><label for="${idx}">${item.name}</label></li>`
-    })
-    
-    const itemsListLI = itemsList.querySelectorAll('li')
-
-    itemsListLI.forEach( li => {
-
-      // Remove previous event listeners to prevent orphaned listeners
-      li.removeEventListener('click', liClick)
-
-      // Add new event listener
-      li.addEventListener('click', liClick)
-
+      list.innerHTML += `
+        <li>
+          <input type="checkbox" data-key="${idx}" id="item${idx}" ${item.done? 'checked=true': ''} />
+          <label for="item${idx}">${item.name}</label>
+        </li>
+      `
     })
 
   }
