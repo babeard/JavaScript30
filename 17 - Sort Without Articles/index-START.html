@@ -49,25 +49,10 @@ const articles = ['The', 'A', 'An']
 const list = document.querySelector('#bands')
 
 // Sort the bands
-bands.sort(sortBands)
+bands.sort((a, b) => (removeArticles(a).toUpperCase() > removeArticles(b).toUpperCase()) ? 1 : -1)
 
 // Populate the list
 bands.forEach(band => list.innerHTML += `<li>${band}</li>`)
-
-function sortBands(a, b) {
-
-  // Remove the articles in a & b
-  redactedA = removeArticles(a).toUpperCase()
-  redactedB = removeArticles(b).toUpperCase()
-
-  // See which is greater
-  if (redactedA < redactedB) return -1
-  if (redactedA > redactedB) return 1
-
-  // Must be the same
-  return 0
-
-}
 
 function removeArticles(name) {
 
