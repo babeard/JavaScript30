@@ -37,27 +37,19 @@
 <script>
   const text = document.querySelector('h1')
   document.addEventListener('mousemove', (e) => {
-    
+
     // Calculate mouse position relative to the center and scale down to a third of what that would be
     const relativeMousePos = {
       x: (e.x - window.innerWidth / 2) * .3,
       y: (e.y - window.innerHeight / 2) * .3
     }
 
-    // CSSify
-    const shadows = {
-      pink: `${relativeMousePos.x}px ${relativeMousePos.y}px 0 rgba(255,0,255,0.7)`,
-      blue: `${-relativeMousePos.y}px ${relativeMousePos.x}px 0 rgba(0,0,255,0.7)`,
-      cyan: `${-relativeMousePos.x}px ${relativeMousePos.y}px 0 rgba(0,255,255,0.7)`,
-      green: `${relativeMousePos.y}px ${-relativeMousePos.x}px 0 rgba(0,255,0,0.7)`
-    }
-
     // Set the CSS on the element
     text.style.textShadow = `
-      ${shadows.pink},
-      ${shadows.blue},
-      ${shadows.cyan},
-      ${shadows.green}
+      ${ relativeMousePos.x } px ${ relativeMousePos.y } px 0 rgba(255, 0, 255, 0.7),
+      ${-relativeMousePos.y}px ${ relativeMousePos.x }px 0 rgba(0, 0, 255, 0.7),
+      ${-relativeMousePos.x}px ${ relativeMousePos.y }px 0 rgba(0, 255, 255, 0.7),
+      ${relativeMousePos.y}px ${-relativeMousePos.x}px 0 rgba(0,255,0,0.7)
     `
 
   })
