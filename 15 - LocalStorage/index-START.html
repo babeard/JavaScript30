@@ -28,7 +28,82 @@
 <script>
   const addItems = document.querySelector('.add-items');
   const itemsList = document.querySelector('.plates');
-  const items = [];
+  let items = [];
+  const storageKey = 'appetizers'
+
+  // Load items or an empty array if it doesn't exist
+  items = JSON.parse(window.localStorage.getItem(storageKey)) || []
+
+  // Initial load of list
+  updateItemsList()
+
+  addItems.addEventListener('submit', (e) => {
+
+    // Prevent submit / page reload
+    e.preventDefault()
+
+    // Select the input within this form
+    const itemInput = e.target.querySelector('input[name="item"]')
+
+    // Update the items array
+    items.push({name: itemInput.value, done: false })
+
+    // Update local storage
+    updateLocalStorage(items)
+
+    // Refresh the UL
+    updateItemsList()
+
+    // Reset the form
+    e.target.reset()
+
+  })
+
+  function liClick(e) {
+
+    // Select the input
+    const input = this.querySelector('input')
+
+    // Toggle checked
+    input.checked = !input.checked
+
+    // Get the key for this input
+    const key = input.dataset.key
+
+    // Update items array
+    items[key] = { name: items[key].name, done: input.checked }
+
+    // Update local storage
+    updateLocalStorage(items)
+
+  }
+
+  function updateItemsList() {
+    // Remove existing html
+    itemsList.innerHTML = ""
+
+    // Populate items
+    items.forEach((item, idx) => {
+      itemsList.innerHTML += `<li><input type="checkbox" data-key="${idx}" /><label for="${idx}">${item.name}</label></li>`
+    })
+    
+    const itemsListLI = itemsList.querySelectorAll('li')
+
+    itemsListLI.forEach( li => {
+
+      // Remove previous event listeners to prevent orphaned listeners
+      li.removeEventListener('click', liClick)
+
+      // Add new event listener
+      li.addEventListener('click', liClick)
+
+    })
+
+  }
+
+  function updateLocalStorage(items) {
+    window.localStorage.setItem(storageKey, JSON.stringify(items))
+  }
 
 </script>
 
