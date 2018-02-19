@@ -187,10 +187,10 @@
   const totalSeconds = times.reduce( (acc, li) => {
 
     // Get the individual minutes and seconds values
-    const [m, s] = li.dataset.time.split(':')
+    const [m, s] = li.dataset.time.split(':').map(Number)
 
     // Return parsed values into seconds plus the accumulator
-    return parseInt(m) * 60 + parseInt(s) + acc
+    return m * 60 + s + acc
 
   }, 0)
 
