@@ -12,36 +12,38 @@
 <script>
   window.SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
   const words = document.querySelector('.words')
+  let results = []
   let speech = new SpeechRecognition()
   speech.continuous = true
-  speech.maxAlternatives = 4
+  speech.interimResults = true
   speech.start()
+
   speech.onresult = (e) => {
 
-    if (e.isTrusted || true) {
-      console.log(e)
+    // Get the index of the last result within a result
+    const subResultIdx = e.results[e.resultIndex].length - 1
+
+    // Put transcript into a results array
+    results[e.resultIndex] = e.results[e.resultIndex][subResultIdx].transcript
+
+    // Clear what has been said before
+    words.innerHTML = ''
+
+    // Loop over the results
+    results.map(result => {
+
+      // Create a paragraph tag
       const p = document.createElement('p')
-      let transcript = ''
-      let maxConfidence = 0
-      let maxConfIdx = 0
-      for (let i = 0; i < e.results[e.resultIndex].length; i++) {
-        // transcript += e.results[e.resultIndex][i].transcript
-        const conf = e.results[e.resultIndex][i].confidence
-        maxConfidence = Math.max(maxConfidence, conf)
-        maxConfIdx = (maxConfidence === conf) ? i : maxConfIdx
 
-      }
-      
-      transcript += e.results[e.resultIndex][maxConfIdx].transcript
+      // Populate the text
+      p.innerText = result
 
-      p.innerText = transcript
+      // Add the paragraph to the end of words
       words.appendChild(p)
-      
 
-    }
-    
+    })
+
   }
-  
 
 </script>
 
