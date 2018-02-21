@@ -48,7 +48,7 @@
 
       // Change the highlighter position accounting for page scroll too
       span.style.top = `${top + window.scrollY}px`
-      span.style.left = `${left}px`
+      span.style.left = `${left + window.scrollX}px`
       span.style.width = `${width}px`
       span.style.height = `${height}px`
 
