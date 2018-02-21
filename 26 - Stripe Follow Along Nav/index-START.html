@@ -221,6 +221,45 @@
 </style>
 
 <script>
+  const navs = document.querySelectorAll('.cool li')
+  const movingBackground = document.querySelector('div.dropdownBackground')
+
+  navs.forEach(li => li.addEventListener('mouseenter', e => {
+
+    movingBackground.classList.add('open')
+    e.target.classList.add('trigger-enter')    
+
+    const drop = e.target.querySelector('.dropdown')
+    const dbound = drop.getBoundingClientRect()
+    const lbound = e.target.getBoundingClientRect()
+
+    // Move the background over to here
+    movingBackground.style.transform = `translate(${dbound.left}px, ${lbound.top + 15}px)` // This is probably wrong
+    movingBackground.style.width = `${dbound.width}px`
+    movingBackground.style.height = `${dbound.height}px`
+
+    // Whenever the background has finished moving over here
+    movingBackground.addEventListener('transitionend', () => {
+
+      // Fade in the content
+      e.target.classList.add('trigger-enter-active')
+
+    }, { once: true })
+
+
+  }))
+
+  navs.forEach(li => li.addEventListener('mouseleave', e => {
+
+    // FreeeeeeeeeeeDOM!
+    e.target.classList.remove('trigger-enter')
+    e.target.classList.remove('trigger-enter-active')
+    movingBackground.classList.remove('open')
+
+  }))
+
+
+
 </script>
 
 </body>
