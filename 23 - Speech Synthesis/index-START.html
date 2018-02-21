@@ -71,7 +71,9 @@
     voices = speakers.filter(voice => voice.lang.startsWith('en'))
 
     // Populate the dropdown menu
-    voicesDropdown.innerHTML = voices.map((voice, i) => `<option value='${i}'>${voice.name}</option>`).join('')
+    voicesDropdown.innerHTML = voices
+      .map(voice => `<option value='${voice.name}'>${voice.name} - ${voice.lang}</option>`)
+      .join('')
 
   }
 
