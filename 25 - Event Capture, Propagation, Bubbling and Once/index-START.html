@@ -39,15 +39,12 @@
 
 <button></button>
 <script>
-  const one = document.querySelector('div.one')
-  const two = document.querySelector('div.two')
-  const three = document.querySelector('div.three')
+  const divs = document.querySelectorAll('div')
   const button = document.querySelector('button')
   const opts = { once: true }
-  one.addEventListener('click', bubbler, opts)
-  two.addEventListener('click', bubbler, opts)
-  three.addEventListener('click', bubbler, opts)
-  
+
+  divs.forEach(div => div.addEventListener('click', bubbler, opts))
+
   button.addEventListener('click', () => {
     console.log("Click!!!")
   }, opts)
