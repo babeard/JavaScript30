@@ -222,24 +222,25 @@
 
 <script>
   const navs = document.querySelectorAll('.cool li')
-  const movingBackground = document.querySelector('div.dropdownBackground')
+  const background = document.querySelector('div.dropdownBackground')
+  const nav = document.querySelector('.top')
 
   navs.forEach(li => li.addEventListener('mouseenter', e => {
 
-    movingBackground.classList.add('open')
+    background.classList.add('open')
     e.target.classList.add('trigger-enter')    
 
     const drop = e.target.querySelector('.dropdown')
-    const dbound = drop.getBoundingClientRect()
-    const lbound = e.target.getBoundingClientRect()
+    const dropCoords = drop.getBoundingClientRect()
+    const navCoords = nav.getBoundingClientRect()
 
     // Move the background over to here
-    movingBackground.style.transform = `translate(${dbound.left}px, ${lbound.top + 15}px)` // This is probably wrong
-    movingBackground.style.width = `${dbound.width}px`
-    movingBackground.style.height = `${dbound.height}px`
+    background.style.transform = `translate(${dropCoords.left - navCoords.left}px, ${dropCoords.top - navCoords.top}px)`
+    background.style.width = `${dropCoords.width}px`
+    background.style.height = `${dropCoords.height}px`
 
     // Whenever the background has finished moving over here
-    movingBackground.addEventListener('transitionend', () => {
+    background.addEventListener('transitionend', () => {
 
       // Fade in the content
       e.target.classList.add('trigger-enter-active')
@@ -249,13 +250,10 @@
 
   }))
 
+  // Remove classes on mouse
   navs.forEach(li => li.addEventListener('mouseleave', e => {
-
-    // FreeeeeeeeeeeDOM!
-    e.target.classList.remove('trigger-enter')
-    e.target.classList.remove('trigger-enter-active')
-    movingBackground.classList.remove('open')
-
+    e.target.classList.remove('trigger-enter', 'trigger-enter-active')
+    background.classList.remove('open')
   }))
 
 
