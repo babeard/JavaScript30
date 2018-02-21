@@ -54,6 +54,17 @@
   </div>
 
 <script>
+  const nav = document.querySelector('nav')
+
+  window.addEventListener('scroll', e => {
+
+    // Get the current nav position
+    const bounds = nav.getBoundingClientRect()
+
+    // If the top of the nav is negative then we have scrolled past it
+    bounds.top < 1 ? nav.classList.add('sticky') : nav.classList.remove('sticky')
+
+  })
 
 </script>
 

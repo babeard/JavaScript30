@@ -84,3 +84,11 @@ nav a {
   transition:all 0.2s;
   text-transform: uppercase;
 }
+
+nav.sticky {
+  position: sticky;
+}
+
+nav.sticky li.logo {
+  max-width: 100%;
+}
