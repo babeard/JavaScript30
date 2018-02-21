@@ -27,6 +27,33 @@
 
   <script>
     // 👀👀👀👀👀👀👀👀👀👀👀👀👀👀👀
+    const body = document.querySelector('body')
+    const span = document.createElement('span') // * Cheated on using a span
+
+    // Make it the highlighter
+    span.classList.add('highlight')
+
+    // Put it on the page
+    body.appendChild(span)
+
+    // Select all anchor tags
+    const anchors = document.querySelectorAll('a')
+
+    // Add a mouse over listener for each anchor tag
+    anchors.forEach(a => a.addEventListener('mouseover', mouseover))
+
+    function mouseover(e) {
+
+      const { top, left, width, height } = e.target.getBoundingClientRect()
+
+      // Change the highlighter position accounting for page scroll too
+      span.style.top = `${top + window.scrollY}px`
+      span.style.left = `${left}px`
+      span.style.width = `${width}px`
+      span.style.height = `${height}px`
+
+    }
+
   </script>
 </body>
 </html>
