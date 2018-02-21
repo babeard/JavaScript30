@@ -32,9 +32,72 @@
   const msg = new SpeechSynthesisUtterance();
   let voices = [];
   const voicesDropdown = document.querySelector('[name="voice"]');
-  const options = document.querySelectorAll('[type="range"], [name="text"]');
+  const rateSlider = document.querySelector('[name="rate"]')
+  const pitchSlider = document.querySelector('[name="pitch"]')
+  const textArea = document.querySelector('[name="text"]')
   const speakButton = document.querySelector('#speak');
   const stopButton = document.querySelector('#stop');
+
+  const synth = window.speechSynthesis
+
+  stopButton.addEventListener('click', () => synth.cancel())
+  speakButton.addEventListener('click', toggleRead)
+  rateSlider.addEventListener('change', toggleRead)
+  pitchSlider.addEventListener('change', toggleRead)
+
+  // Listen for dropdown menu changes
+  voicesDropdown.addEventListener('change', e => { 
+
+    // Change the current index of the selected voice
+    currentVoiceIdx = e.target.selectedIndex
+
+    // Interupt play
+    synth.cancel()
+
+    // Read
+    toggleRead()
+
+  })
+
+  // Grab the voices after it has been loaded
+  synth.addEventListener('voiceschanged', loadVoices)
+
+  function loadVoices(e) {
+
+    // Get all the speakers
+    const speakers = e.target.getVoices()
+
+    // Filter out non-english speakers
+    voices = speakers.filter(voice => voice.lang.startsWith('en'))
+
+    // Populate the dropdown menu
+    voicesDropdown.innerHTML = voices.map((voice, i) => `<option value='${i}'>${voice.name}</option>`).join('')
+
+  }
+
+  function toggleRead() {
+
+    // Toggle off if speaking
+    if (synth.speaking) return synth.cancel()
+
+    // Set the current voice
+    msg.voice = voices[voicesDropdown.selectedIndex]
+
+    // Set the pitch
+    msg.pitch = pitchSlider.value
+
+    // Set the rate
+    msg.rate = rateSlider.value
+
+    // Set the text to read
+    msg.text = textArea.value
+
+    // Read the text
+    synth.speak(msg)
+
+  }
+
+
 </script>
 
 </body>
