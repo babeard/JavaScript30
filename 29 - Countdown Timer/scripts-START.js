@@ -34,22 +34,19 @@ function setTimer(seconds) {
     clearInterval(intervalHandler)
 
     // Initialize now
-    const now = new Date()
+    const now = Date.now()
 
     // Parse into a number
     seconds = Number(seconds)
 
     // Initialize future
-    then = new Date(now.getTime() + seconds * 1000)
+    then = new Date(now + seconds * 1000)
 
     // Update time on a loop
     intervalHandler = setInterval(() => {
 
-        // Get a current date
-        const now = new Date()
-
         // Calculate how many seconds we have left
-        secondsLeft = Math.round((then.getTime() - now.getTime()) / 1000)
+        secondsLeft = Math.round((then.getTime() - Date.now()) / 1000)
 
         // If countdown complete, stop the loop
         if (secondsLeft < 1) clearInterval(intervalHandler)
@@ -59,15 +56,18 @@ function setTimer(seconds) {
         const min = Math.floor(secondsLeft / 60)
 
         // Set the time left display with padding on seconds if need be
-        timeLeft.innerText = `${min}:${ sec > 9 ? '': 0 }${sec}`
+        timeLeft.innerText = `${min}:${ sec < 10 ? '0' + sec : sec }`
 
         // Set the page title to the time left
         document.title = timeLeft.innerText
 
     }, 100)
 
+    const h = then.getHours()
+    const m = then.getMinutes()
+
     // Get the ending time in hours:minutes
-    timeEndValue = then.toLocaleTimeString('en-US').split(':').slice(0,2).join(':')
+    timeEndValue = `${h > 12 ? h - 12 : h}:${m < 10 ? '0' + m : m}`
 
     // Set timer ends display
     timeEnd.innerText = `Be Back At ${timeEndValue}`
