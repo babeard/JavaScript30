@@ -36,21 +36,27 @@
 
 <script>
   const items = document.querySelector('div.items')
-
   let mouseDown = false
   let prevX = 0
   const speed = 2
-
 
   items.addEventListener('mousemove', (e) => {
 
     if (mouseDown) {
 
+      // Calculate where our scroll should be next
       let to = (items.scrollLeft + (prevX - e.screenX) * speed)
+
+      // Look for maximum scroll bounds
       to = to > items.scrollWidth ? items.scrollWidth : to
 
+      // Look for minimum scroll bounds
+      to = to + items.scrollLeft < 0 ? 0 : to
+      
+      // Scroll to that position
       items.scrollTo( to, 0)
 
+      // Keep track of this position for next time
       prevX = e.screenX
 
     }
@@ -61,6 +67,7 @@
     toggleDown()  
     prevX = e.screenX
   })
+
   items.addEventListener('mouseup', () => toggleDown(false))
   items.addEventListener('mouseleave', () => toggleDown(false))
 
