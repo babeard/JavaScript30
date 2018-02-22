@@ -35,6 +35,39 @@
   </div>
 
 <script>
+  const items = document.querySelector('div.items')
+
+  let mouseDown = false
+  let prevX = 0
+  const speed = 2
+
+
+  items.addEventListener('mousemove', (e) => {
+
+    if (mouseDown) {
+
+      let to = (items.scrollLeft + (prevX - e.screenX) * speed)
+      to = to > items.scrollWidth ? items.scrollWidth : to
+
+      items.scrollTo( to, 0)
+
+      prevX = e.screenX
+
+    }
+
+  })
+
+  items.addEventListener('mousedown', (e) => {
+    toggleDown()  
+    prevX = e.screenX
+  })
+  items.addEventListener('mouseup', () => toggleDown(false))
+  items.addEventListener('mouseleave', () => toggleDown(false))
+
+  function toggleDown(isDown = true) {
+    mouseDown = isDown
+    items.classList.toggle('active', isDown)
+  }
 </script>
 
   </body>
