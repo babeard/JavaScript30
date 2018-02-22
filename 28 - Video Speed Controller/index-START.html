@@ -19,16 +19,19 @@
   const bar = speed.querySelector('.speed-bar')
   const video = document.querySelector('video')
 
+  const minRate = 0.4
+  const maxRate = 4
+
   speed.addEventListener('mousemove', (e) => {
 
     // Get updated coordnates for the speed element, just in case browser resize happened
     const coords = speed.getBoundingClientRect()
 
     // Get the percentage up the bar should be
-    const percent = ((e.y - coords.top) / coords.height) * 100
+    const percent = Math.round(((e.y - coords.top) / coords.height) * 100)
 
-    // Set the playback rate between 0 and 4
-    video.playbackRate = Math.round(percent * 4) / 100
+    // Set the playback rate between min and max
+    video.playbackRate = percent * (maxRate - minRate) + minRate
 
     // Update the display number
     bar.innerText = `${video.playbackRate}x`
