@@ -37,6 +37,78 @@
   const scoreBoard = document.querySelector('.score');
   const moles = document.querySelectorAll('.mole');
 
+  const gameTime = 30
+  const maxMoleTime = 1200
+  const minMoleTime = 500
+
+  let moleTimeout
+  let gameEnds = 0
+  let rHole = randomNumberBetween(0, holes.length)
+
+  function startGame() {
+
+    // Reset interval if any
+    clearInterval(moleTimeout)
+
+    // Reset game stats
+    let hits = 0
+    gameEnds = Date.now() + gameTime * 1000
+    scoreBoard.textContent = hits
+
+    // Start the chain
+    nextMole(randomNumberBetween(minMoleTime, maxMoleTime))
+
+  }
+
+  function nextMole(timeout) {
+
+    // Get a random hole
+    rHole = randomNumberBetween(0, holes.length, rHole)
+
+    // Open this mole hole
+    holes[rHole].classList.add('up')
+
+    // Listen for clicks
+    moles[rHole].addEventListener('click', hit, { once: true })
+
+    // Just in case there is an active timeout
+    clearTimeout(moleTimeout)
+
+    // Set the new timeout for this mole
+    moleTimeout = setTimeout(() => {
+
+      // Close mole hole
+      holes[rHole].classList.remove('up')
+
+      // Remove the event listener
+      moles[rHole].removeEventListener('click', hit)
+
+      // Stop the chain if game time has ended
+      if (Date.now() > gameEnds) return
+
+      // Call the next in the chain
+      nextMole(randomNumberBetween(minMoleTime, maxMoleTime))
+
+    }, timeout)
+  }
+
+  function hit() {
+    scoreBoard.textContent = Number(scoreBoard.textContent) + 1
+  }
+
+  function randomNumberBetween(min = 0, max = 100, never) {
+
+    // Get the random number within min and max
+    const r = Math.floor(Math.random() * (max - min) + min)
+
+    // If never isn't defined the just return the random number
+    if (typeof never === 'undefined') return r
+
+    // If never is defined and the random number generator spit out the same number,
+    // try until you get a different number, otherwise return the different number
+    return r === never ? randomNumberBetween(min, max, never) : r
+
+  }
 </script>
 </body>
 </html>
